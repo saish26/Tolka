@@ -1,8 +1,7 @@
-import { UserType } from "../enums/userType";
 import { ILoginData, ISignUpData } from "../interface/auth";
 
 export const authDTO = {
-  signup: (data: ISignUpData,userType:UserType) => {
+  signup: (data: ISignUpData, userType: any) => {
     return {
       password: data?.password,
       fullName: data?.fullName,
@@ -13,9 +12,9 @@ export const authDTO = {
   },
   login: (data: ILoginData) => {
     return {
-      username: data?.email,
+      email: data?.email,
       password: data?.password,
-      rememberMe: data?.rememberMe,
+      appId: "lang-inst-g",
     };
   },
 };

@@ -46,7 +46,11 @@ const CommonTextField = React.forwardRef(
             onVisibilityChange={toggle}
             variant="filled"
             size="xl"
-            styles={{ innerInput: inputStyles, input: inputStyles, error: errorStyles }}
+            styles={{
+              innerInput: inputStyles,
+              input: inputStyles,
+              error: errorStyles,
+            }}
           />
         );
       case "email":
@@ -80,7 +84,7 @@ const CommonTextField = React.forwardRef(
             ref={ref}
             inputMode="text"
             variant="filled"
-            size="xl"
+            size="lg"
             styles={{ input: inputStyles, error: errorStyles }}
           />
         );

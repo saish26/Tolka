@@ -1,22 +1,15 @@
 import { APILoginUser } from "@/apis/auth/auth";
 import CommonButton from "@/components/common/form/CommonButton";
 import CommonTextField from "@/components/common/form/CommonTextField";
-import SmeNavBar from "@/components/partials/SmeNavBar";
+// import SmeNavBar from "@/components/partials/SmeNavBar";
 import useIsAuth from "@/hooks/useIsAuth";
 import { authDTO } from "@/utils/formatters/authDTO";
 import notify from "@/utils/helpers/notify";
 import { ILoginData, ILoginResponse } from "@/utils/interface/auth";
-import { Checkbox } from "@mantine/core";
+import { Button, Checkbox } from "@mantine/core";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-
-enum Users {
-  "ADMIN" = "ADMIN",
-  "BFI" = "BANK",
-  "BRANCH" = "BANK_BRANCH",
-  "SME" = "BUSINESS",
-}
 
 const Login = () => {
   const router = useRouter();
@@ -40,38 +33,14 @@ const Login = () => {
     try {
       setLoading(true);
       const formattedData = authDTO.login({ ...data, rememberMe: remember });
-      const response: ILoginResponse = await APILoginUser(formattedData);
-      const responseData = response?.data;
-      localStorage.setItem("data", JSON.stringify(responseData));
-      localStorage.setItem("token", response?.token);
-      localStorage.setItem("refreshToken", response?.refreshToken);
+      const response: any = await APILoginUser(formattedData);
+      const responseData: ILoginResponse = response?.data;
+      // localStorage.setItem("data", JSON.stringify(responseData));
+      localStorage.setItem("token", responseData?.accessToken);
+      // localStorage.setItem("refreshToken", response?.refreshToken);
       notify("success", response?.message);
-      reset();
 
-      switch (responseData?.userType) {
-        case Users.ADMIN:
-          router.push("/admin");
-          break;
-        case Users.BFI:
-          if (responseData?.bfiStatus === "APPROVED" || responseData?.isFirstLogin === false) {
-            router.push("/bfi");
-          } else {
-            router.push("/bfi/bfi-details");
-          }
-          break;
-        case Users.BRANCH:
-          if (responseData?.hasUserChangedPassword) {
-            router.push("/bfi-branch");
-          } else {
-            router.push("/bfi-branch/set-password");
-          }
-          break;
-        case Users.SME:
-          router.push("/sme");
-          break;
-        default:
-          break;
-      }
+      reset();
     } catch (error: any) {
       setLoading(false);
       notify("error", error);
@@ -86,9 +55,11 @@ const Login = () => {
   }, [isAuth]);
 
   return (
-    <main className="w-full h-full flex justify-center items-center">
+    <main className="w-full h-[100vh] flex justify-center items-center">
       <div className="w-[450px] card-layout p-5 lg:p-10 bg-white space-y-6 ">
-        <h1 className="text-title-active font-medium text-2xl lg:text-3xl pb-5">Sign In</h1>
+        <h1 className="text-title-active font-medium text-2xl lg:text-3xl pb-5">
+          Sign In
+        </h1>
         <span className="text-lg">Login to your existing account</span>
         <form className="pt-5 space-y-5" onSubmit={handleSubmit(onSubmit)}>
           <Controller
@@ -102,7 +73,11 @@ const Login = () => {
             }}
             control={control}
             render={({ field }) => (
-              <CommonTextField {...field} placeholder="Email" error={errors.email?.message} />
+              <CommonTextField
+                {...field}
+                placeholder="Email"
+                error={errors.email?.message}
+              />
             )}
           />
           <Controller
@@ -137,14 +112,14 @@ const Login = () => {
           </div>
 
           <div className="pt-10">
-            <CommonButton
-              className="bg-secondary h-14 text-lg hover:text-white font-medium text-title-active"
+            <Button
+              className="bg-[#164E99] hover:bg-[#164E99] h-14 text-lg w-full "
               type="submit"
               size="xl"
               loading={loading}
             >
               Sign in
-            </CommonButton>
+            </Button>
           </div>
           {/* <div className="flex w-full justify-end py-2">
             <span>
@@ -157,5 +132,5 @@ const Login = () => {
   );
 };
 
-Login.Layout = SmeNavBar;
+// Login.Layout = SmeNavBar;
 export default Login;

@@ -1,5 +1,3 @@
-import { LoanStatus } from "../enums/loanStatus";
-
 export interface ISignUpData {
   fullName: string;
   email: string;
@@ -31,11 +29,10 @@ export interface ILoginResponseData {
     contactPersonPhoneNumber: string;
     bankIdentifier: null | string;
   };
-  bfiStatus: LoanStatus;
 }
 
 export interface ILoginResponse {
-  token: string;
+  accessToken: string;
   message: string;
   type: string;
   refreshToken: string;
