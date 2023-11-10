@@ -17,7 +17,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <>
       <Head>
-        <title>docprep</title>
+        <title>Tokla</title>
       </Head>
       <MantineTheme>
         <Layout>

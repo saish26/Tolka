@@ -38,6 +38,7 @@ const Login = () => {
       // localStorage.setItem("data", JSON.stringify(responseData));
       localStorage.setItem("token", responseData?.accessToken);
       // localStorage.setItem("refreshToken", response?.refreshToken);
+      router.push("/dashboard");
       notify("success", response?.message);
 
       reset();
